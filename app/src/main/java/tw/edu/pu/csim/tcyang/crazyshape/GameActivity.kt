@@ -12,9 +12,22 @@ import org.tensorflow.lite.support.image.TensorImage
 import tw.edu.pu.csim.tcyang.crazyshape.ml.Shapes
 
 class GameActivity : AppCompatActivity() {
+    var FlagShape:Int = 0
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_game)
+
+        btnBack.isEnabled =false
+
+        val intent = getIntent()
+        FlagShape = intent.getIntExtra("形狀",0)
+        when (FlagShape){
+            1->txvMsg.text = "請畫出圓形"
+            2->txvMsg.text = "請畫出方形"
+            3->txvMsg.text = "請畫出星形"
+            4->txvMsg.text = "請畫出三角形"
+        }
 
         btnBack.setOnClickListener(object: View.OnClickListener{
             override fun onClick(p0: View?) {
@@ -78,8 +91,15 @@ class GameActivity : AppCompatActivity() {
             "triangle" -> {Result = "三角形"
                 FlagDraw=4}
         }
-        Result += ": " + String.format("%.1f%%", outputs[0].score * 100.0f)
-
+        //Result += ": " + String.format("%.1f%%", outputs[0].score * 100.0f)
+        Result = "您畫的是：" + Result + "，"
+        if (FlagShape == FlagDraw){
+            Result += "恭喜您順利過關！"
+            btnBack.isEnabled =true
+        }
+        else{
+            Result += "請再試試看喔！"
+        }
 
         // Releases model resources if no longer used.
         model.close()

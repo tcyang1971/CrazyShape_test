@@ -13,7 +13,7 @@ public final class MyAppGlideModule : AppGlideModule()
 
 class MainActivity : AppCompatActivity() {
 
-    var Flag : Int  = 0
+    var Flag : Int  = 2
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,7 +29,9 @@ class MainActivity : AppCompatActivity() {
 
         imgNext.setOnLongClickListener(object : View.OnLongClickListener {
             override fun onLongClick(p0: View?): Boolean {
-                intent = Intent(this@MainActivity, GameActivity::class.java)
+                intent = Intent(this@MainActivity, GameActivity::class.java).apply{
+                    putExtra("形狀",Flag)
+                }
                 startActivity(intent)
                 return true
             }
